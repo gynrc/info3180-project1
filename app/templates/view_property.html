@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="card mb-3">
+    <img src="{{ url_for('static', filename='photos/' + property.photo) }}" class="card-img-top" alt="{{ property.title }}">
+    <div class="card-body">
+      <h5 class="card-title bg-primary text-white rounded p-2">{{ property.title }}</h5>
+      <p class="card-text">{{ property.description }}</p>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Price:</strong> {{ property.price }}</li>
+        <li class="list-group-item"><strong>Type:</strong> <span class="badge badge-primary">{{ property.type }}</span></li>
+        <li class="list-group-item"><strong>Bedrooms:</strong> {{ property.rooms }}</li>
+        <li class="list-group-item"><strong>Bathrooms:</strong> {{ property.bathrooms }}</li>
+        <li class="list-group-item"><strong>Location:</strong> {{ property.location }}</li>
+      </ul>
+      <a href="#" class="btn btn-primary mt-3">Contact Realtor</a>
+    </div>
+  </div>
+{% endblock %}

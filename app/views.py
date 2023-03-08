@@ -4,9 +4,11 @@ Jinja2 Documentation:    https://jinja.palletsprojects.com/
 Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file contains the routes for your application.
 """
-
-from app import app
-from flask import render_template, request, redirect, url_for
+import os
+from app import app, db
+from flask import render_template, request, redirect, url_for, flash 
+from .models import Property
+from .forms import PropertyForm
 
 
 ###
@@ -22,7 +24,42 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Condoleezza Gaynor")
+
+@app.route('/properties/create', methods=['GET', 'POST'])
+def create_property():
+    form = PropertyForm()
+    if form.validate_on_submit():
+        photo = form.photo.data
+        filename = photo.filename
+        property = Property(title=form.title.data,
+                            num_bedrooms=form.num_bedrooms.data,
+                            num_bathrooms=form.num_bathrooms.data,
+                            location=form.location.data,
+                            price=form.price.data,
+                            type=form.type.data,
+                            description=form.description.data,
+                            photo=filename)
+        db.session.add(property)
+        db.session.commit()
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        flash('Property was successfully added')
+        return redirect(url_for('list_properties'))
+    return render_template('create_property.html', form=form)
+    
+@app.route('/properties')
+def list_property():
+    properties = Property.query.all()
+    return render_template('list_property.html', properties=properties)
+
+@app.route('/properties/<pid>')
+def view_property(pid):
+    property = Property.query.get(pid)
+    if property:
+        return render_template('view_property.html', property=property)
+    else:
+        flash('Property not found')
+        return redirect(url_for('list_property'))
 
 
 ###
