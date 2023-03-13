@@ -1,19 +1,35 @@
 {% extends 'base.html' %}
 
-{% block content %}
-  <div class="card mb-3">
-    <img src="{{ url_for('static', filename='photos/' + property.photo) }}" class="card-img-top" alt="{{ property.title }}">
-    <div class="card-body">
-      <h5 class="card-title bg-primary text-white rounded p-2">{{ property.title }}</h5>
-      <p class="card-text">{{ property.description }}</p>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Price:</strong> {{ property.price }}</li>
-        <li class="list-group-item"><strong>Type:</strong> <span class="badge badge-primary">{{ property.type }}</span></li>
-        <li class="list-group-item"><strong>Bedrooms:</strong> {{ property.rooms }}</li>
-        <li class="list-group-item"><strong>Bathrooms:</strong> {{ property.bathrooms }}</li>
-        <li class="list-group-item"><strong>Location:</strong> {{ property.location }}</li>
-      </ul>
-      <a href="#" class="btn btn-primary mt-3">Contact Realtor</a>
+{% block main %}
+<div class="view-container">
+  <div class="row">
+    <div class="col-md-6">
+      <img src="{{ url_for('get_image', filename=property.photo) }}" alt="Property Photo" class="img-fluid">
+    </div>
+    <div class="col-md-6">
+      <h2 class="view-heading">{{ property.title }}</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <p class="badge">{{ property.price | format_currency }}</p>
+          <p class="badge bg-warning">{{ property.type }}</p>
+        </div>
+      </div>
+      <p class="description">{{ property.description }}</p>    
+      <div class="row">
+        <div class="col-md-3">
+          <p><img src="{{ url_for('static', filename='room.png') }}" class="icon" alt="room icon">{{ property.num_bedrooms }} Bedroom(s)</p>
+        </div>
+        <div class="col-md-3">
+          <p><img src="{{ url_for('static', filename='bathroom.png') }}" class="icon" alt="bathroom icon">{{ property.num_bathrooms }} Bathroom(s)</p>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <p><img src="{{ url_for('static', filename='marker.png') }}" class="icon" alt="marker icon">{{ property.location }}</p>
+        </div>
+      </div>
+      <a href="#" class="btn bg-info text-white">Contact Realtor</a>
     </div>
   </div>
+</div>
 {% endblock %}

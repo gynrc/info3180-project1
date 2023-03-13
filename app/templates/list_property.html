@@ -1,20 +1,23 @@
 {% extends 'base.html' %}
 
-{% block content %}
-  <h1>All Properties</h1>
+{% block main %}
+  <h1 class="heading-title">Properties</h1>
   <div class="row">
     {% for property in properties %}
-      <div class="col-md-4 mb-3">
-        <div class="card">
-          <img src="{{ url_for('static', filename='photos/' + property.photo) }}" class="card-img-top" alt="{{ property.title }}">
-          <div class="card-body">
-            <h5 class="card-title">{{ property.title }}</h5>
-            <p class="card-text"><strong>Location:</strong> {{ property.location }}</p>
-            <p class="card-text"><strong>Price:</strong> {{ property.price }}</p>
-            <a href="{{ url_for('view_property', propertyid=property.id) }}" class="btn btn-primary">View Property</a>
-          </div>
+    <div class="col-md-4">
+      <div class="property-card">
+        <img class="card-img-top" height="290px" src="{{ url_for('get_image', filename=property.photo) }}" alt="Property Photo">
+        <div class="card-body">
+          <h6 class="title">{{ property.title }}</h6>
+          <p><img src="{{ url_for('static', filename='marker.png') }}" class="icon" alt="marker icon">{{ property.location }}</p>
+          <p class="badge">{{ property.price | format_currency }}</p>
         </div>
-      </div>
+          <div>
+            <a href="{{ url_for('view_property', pid=property.id) }}" button type="button" class="block">View Property</button></a>
+          </div>
+          <p>
+      </div> 
+    </div>
     {% endfor %}
   </div>
 {% endblock %}
