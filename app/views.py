@@ -53,7 +53,7 @@ def create_property():
                             photo=filename)
         db.session.add(property)
         db.session.commit()
-        flash('Property was successfully added')
+        flash('Property was successfully added', 'success')
         return redirect(url_for('list_property'))
     return render_template('create_property.html', form=form)
 
@@ -80,7 +80,7 @@ def view_property(pid):
     if property:
         return render_template('view_property.html', property=property)
     else:
-        flash('Property not found')
+        flash('Property not found', 'danger')
         return redirect(url_for('list_property'))
 
 
