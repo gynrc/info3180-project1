@@ -64,24 +64,12 @@ def list_property():
     return render_template('list_property.html', properties=properties)
 
 
-def get_uploaded_images():
-    upload_dir = os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'])
-    filenames = []
-    for filename in os.listdir(upload_dir):
-        if filename.endswith('.jpg') or filename.endswith('.png'):
-            filenames.append(filename)
-    return filenames
-
-
 @app.route('/properties/<pid>')
 def view_property(pid):
     pid = int(pid)
     property = db.session.execute(db.select(Property).filter_by(id=pid)).scalar_one()
     if property:
         return render_template('view_property.html', property=property)
-    else:
-        flash('Property not found', 'danger')
-        return redirect(url_for('list_property'))
 
 
 @app.route('/uploads/<filename>')
